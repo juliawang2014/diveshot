@@ -1,0 +1,140 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://data/Actors/Actor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://data/Actors/Player.gd" type="Script" id=2]
+[ext_resource path="res://assets/Sprites/Asset 1.png" type="Texture" id=3]
+[ext_resource path="res://data/Effects/Bullet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://data/Effects/CameraShake.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 14.4655
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 14.4372
+
+[node name="Player" instance=ExtResource( 1 )]
+scale = Vector2( 0.5, 0.5 )
+collision_mask = 46
+script = ExtResource( 2 )
+speed = 300
+Bullet = ExtResource( 4 )
+gun_cooldown = 1.0
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 34, 0, 32, 52 )
+
+[node name="CollisionShape2D" parent="." index="2"]
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." index="3"]
+position = Vector2( 0, -44.834 )
+shape = SubResource( 2 )
+
+[node name="Timer" parent="." index="4"]
+one_shot = true
+
+[node name="Limbs" type="Node2D" parent="." index="6"]
+
+[node name="HeadSprite" type="Sprite" parent="Limbs" index="0"]
+position = Vector2( -0.0208282, -25.5485 )
+texture = ExtResource( 3 )
+offset = Vector2( 0.143852, -19.8854 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 34, 34 )
+
+[node name="Muzzle" type="Position2D" parent="Limbs" index="1"]
+position = Vector2( 61.4016, -14.4224 )
+
+[node name="Arm1" type="Sprite" parent="Limbs" index="2"]
+position = Vector2( 4.89528, -7.61964 )
+rotation = -1.20862
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 86, 2, 14, 30 )
+
+[node name="Arm2" type="Sprite" parent="Limbs/Arm1" index="0"]
+position = Vector2( 2.25283, 15.9361 )
+rotation = -0.35094
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 86, 2, 14, 30 )
+
+[node name="Gun" type="Sprite" parent="Limbs/Arm1/Arm2" index="0"]
+position = Vector2( 5.42819, 20.0859 )
+rotation = 3.14159
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 102, 0, 20, 30 )
+
+[node name="RArm1" type="Sprite" parent="Limbs" index="3"]
+position = Vector2( 15.571, -7.53557 )
+rotation = -0.957702
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 86, 2, 14, 30 )
+
+[node name="RArm2" type="Sprite" parent="Limbs/RArm1" index="0"]
+position = Vector2( 5.79743, 16.7177 )
+rotation = -0.58085
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 86, 2, 14, 30 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Limbs" index="4"]
+
+[node name="LLeg1" type="Sprite" parent="Limbs/KinematicBody2D" index="0"]
+position = Vector2( -14.5956, 27.5586 )
+rotation = 0.606469
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 70, 2, 14, 36 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Limbs/KinematicBody2D/LLeg1" index="0"]
+collision_mask = 2147483648
+
+[node name="LLeg2" type="Sprite" parent="Limbs/KinematicBody2D/LLeg1/RigidBody2D" index="0"]
+position = Vector2( -0.13904, 16.1873 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 70, 2, 14, 36 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Limbs/KinematicBody2D" index="1"]
+position = Vector2( -21.0462, 37.8831 )
+node_a = NodePath("..")
+node_b = NodePath("../LLeg1/RigidBody2D")
+bias = 0.9
+
+[node name="RLeg" type="KinematicBody2D" parent="Limbs" index="5"]
+
+[node name="RLeg1" type="Sprite" parent="Limbs/RLeg" index="0"]
+position = Vector2( 10.1021, 30.3065 )
+rotation = -0.431779
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 70, 2, 14, 36 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Limbs/RLeg/RLeg1" index="0"]
+collision_mask = 0
+
+[node name="RLeg2" type="Sprite" parent="Limbs/RLeg/RLeg1/RigidBody2D" index="0"]
+position = Vector2( -0.280479, 16.238 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 70, 2, 14, 36 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Limbs/RLeg" index="1"]
+position = Vector2( 14.592, 41.5311 )
+node_a = NodePath("..")
+node_b = NodePath("../RLeg1/RigidBody2D")
+bias = 0.9
+
+[node name="CameraShake" parent="." index="7" instance=ExtResource( 5 )]
+limit_left = 0
+limit_top = 0
+limit_right = 480
+limit_bottom = 640
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

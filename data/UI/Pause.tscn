@@ -1,0 +1,125 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/Fonts/xfont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://data/UI/VolumeControl.tscn" type="PackedScene" id=2]
+[ext_resource path="res://data/UI/Pause.gd" type="Script" id=3]
+[ext_resource path="res://assets/Fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://data/UI/windowbg.tres" type="ButtonGroup" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 4 )
+
+[node name="Pause" type="CanvasLayer"]
+pause_mode = 2
+layer = 10
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.384314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect"]
+margin_top = 64.0
+margin_right = 480.0
+margin_bottom = 114.0
+custom_fonts/normal_font = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center]Paused[/center]"
+text = "Paused"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MasterControl" parent="ColorRect" instance=ExtResource( 2 )]
+margin_top = 128.0
+margin_bottom = 144.0
+
+[node name="MusicControl" parent="ColorRect" instance=ExtResource( 2 )]
+margin_top = 176.0
+margin_bottom = 192.0
+
+[node name="SFXControl" parent="ColorRect" instance=ExtResource( 2 )]
+margin_top = 232.0
+margin_bottom = 248.0
+
+[node name="Fullscreen" type="CheckBox" parent="ColorRect"]
+margin_left = 88.0
+margin_top = 304.0
+margin_right = 112.0
+margin_bottom = 332.0
+custom_fonts/font = SubResource( 1 )
+pressed = true
+group = ExtResource( 5 )
+text = "Fullscreen"
+
+[node name="Windowed" type="CheckBox" parent="ColorRect"]
+margin_left = 304.0
+margin_top = 304.0
+margin_right = 419.0
+margin_bottom = 332.0
+custom_fonts/font = SubResource( 1 )
+group = ExtResource( 5 )
+text = "Windowed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resume" type="ToolButton" parent="ColorRect"]
+margin_left = 184.0
+margin_top = 464.0
+margin_right = 330.0
+margin_bottom = 511.0
+custom_fonts/font = SubResource( 3 )
+text = "Resume"
+
+[node name="Quit" type="ToolButton" parent="ColorRect"]
+margin_left = 216.0
+margin_top = 528.0
+margin_right = 296.0
+margin_bottom = 575.0
+custom_fonts/font = SubResource( 2 )
+text = "Quit"
+
+[node name="ColorPicker" type="ColorPickerButton" parent="ColorRect"]
+margin_left = 208.0
+margin_top = 432.0
+margin_right = 303.0
+margin_bottom = 452.0
+text = "Change Color"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="RichTextLabel" parent="ColorRect"]
+margin_left = 160.0
+margin_top = 400.0
+margin_right = 352.0
+margin_bottom = 424.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center]Change player's color[/center]"
+text = "Change player's color"
+[connection signal="value_changed" from="ColorRect/MasterControl" to="." method="_on_MasterControl_value_changed"]
+[connection signal="value_changed" from="ColorRect/MusicControl" to="." method="_on_MusicControl_value_changed"]
+[connection signal="value_changed" from="ColorRect/SFXControl" to="." method="_on_SFXControl_value_changed"]
+[connection signal="toggled" from="ColorRect/Fullscreen" to="." method="_on_Fullscreen_toggled"]
+[connection signal="toggled" from="ColorRect/Windowed" to="." method="_on_Windowed_toggled"]
+[connection signal="pressed" from="ColorRect/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="ColorRect/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="color_changed" from="ColorRect/ColorPicker" to="." method="_on_ColorPicker_color_changed"]
