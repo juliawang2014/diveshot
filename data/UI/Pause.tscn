@@ -9,11 +9,11 @@
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 32
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 32
 font_data = ExtResource( 4 )
 
@@ -64,9 +64,11 @@ margin_top = 304.0
 margin_right = 112.0
 margin_bottom = 332.0
 custom_fonts/font = SubResource( 1 )
-pressed = true
 group = ExtResource( 5 )
 text = "Fullscreen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Windowed" type="CheckBox" parent="ColorRect"]
 margin_left = 304.0
@@ -74,6 +76,7 @@ margin_top = 304.0
 margin_right = 419.0
 margin_bottom = 332.0
 custom_fonts/font = SubResource( 1 )
+pressed = true
 group = ExtResource( 5 )
 text = "Windowed"
 __meta__ = {
@@ -85,7 +88,7 @@ margin_left = 184.0
 margin_top = 464.0
 margin_right = 330.0
 margin_bottom = 511.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "Resume"
 
 [node name="Quit" type="ToolButton" parent="ColorRect"]
@@ -93,7 +96,7 @@ margin_left = 216.0
 margin_top = 528.0
 margin_right = 296.0
 margin_bottom = 575.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "Quit"
 
 [node name="ColorPicker" type="ColorPickerButton" parent="ColorRect"]
@@ -115,6 +118,9 @@ custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "[center]Change player's color[/center]"
 text = "Change player's color"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="value_changed" from="ColorRect/MasterControl" to="." method="_on_MasterControl_value_changed"]
 [connection signal="value_changed" from="ColorRect/MusicControl" to="." method="_on_MusicControl_value_changed"]
 [connection signal="value_changed" from="ColorRect/SFXControl" to="." method="_on_SFXControl_value_changed"]

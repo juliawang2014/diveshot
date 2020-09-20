@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/Environment/background.png" type="Texture" id=1]
+[ext_resource path="res://data/Actors/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/Environment/ledge.png" type="Texture" id=3]
+[ext_resource path="res://data/Effects/WorldEnvironment.tscn" type="PackedScene" id=4]
+[ext_resource path="res://data/Stages/TileMap.tscn" type="PackedScene" id=5]
+[ext_resource path="res://data/Stages/Game.gd" type="Script" id=6]
+[ext_resource path="res://data/Stages/Instructions.gd" type="Script" id=7]
+[ext_resource path="res://assets/Fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "float"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 2.46229, 0.965936 ),
+"update": 0,
+"values": [ Vector2( 240, 208 ), Vector2( 240, 220 ) ]
+}
+
+[sub_resource type="DynamicFont" id=2]
+size = 42
+font_data = ExtResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 88, 72 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 272, 10 )
+
+[node name="Ledge" type="Node"]
+script = ExtResource( 6 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="background" type="Sprite" parent="CanvasLayer"]
+self_modulate = Color( 0.113725, 0.113725, 0.113725, 1 )
+position = Vector2( 240, 320 )
+texture = ExtResource( 1 )
+
+[node name="Instructions" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 240, 215.711 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 29.3291, 3.47987, 411.54, 270.93 )
+script = ExtResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Instructions"]
+autoplay = "float"
+anims/float = SubResource( 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Instructions"]
+margin_left = -40.0
+margin_top = 320.289
+margin_right = 224.0
+margin_bottom = 376.289
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "Dive Down!"
+text = "Dive Down!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56, 424 )
+gravity = 800
+
+[node name="Ledge" type="StaticBody2D" parent="."]
+position = Vector2( 88, 568 )
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ledge"]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Ledge"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( -5.57846, 406.183, 191.269, 166.714 )
+
+[node name="WorldEnvironment" parent="." instance=ExtResource( 4 )]
+
+[node name="TileMap" parent="." instance=ExtResource( 5 )]
+tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, -65528, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 131071, 0, 0, 65544, 0, 0, 196607, 0, 0, 131080, 0, 0, 262143, 0, 0, 196616, 0, 0, 327679, 0, 0, 262152, 0, 0, 393215, 0, 0, 327688, 0, 0, 458751, 0, 0, 393224, 0, 0, 524287, 0, 0, 458760, 0, 0, 589823, 0, 0, 524296, 0, 0, 655359, 0, 0, 589832, 0, 0, 720895, 0, 0, 655368, 0, 0 )
+
+[node name="NextZone" type="Area2D" parent="."]
+position = Vector2( 232, 664 )
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NextZone"]
+shape = SubResource( 4 )
+[connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
+[connection signal="body_entered" from="NextZone" to="." method="_on_NextZone_body_entered"]

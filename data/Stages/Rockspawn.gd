@@ -5,6 +5,7 @@ export (int) var number_of_rocks = 10
 var start_wait_time = 3.0
 var radius
 var sizes = ['big', 'small']
+var allowed_to_emit = true
 
 func _ready():
 	randomize()
@@ -25,12 +26,16 @@ func spawn_rocks(size, pos):
 	a.init(size, pos)
 	a.connect('explode', self, 'explode_asteroid')
 	$Rocks.call_deferred('add_child', a)
+	
 
 func _on_Timer_timeout():
 	if $Timer.wait_time >= 1.0:
 		$Timer.wait_time -= 0.1
-	number_of_rocks += 2
-	spawn_rocks(get_rand_size(), get_rand_pos())
+	if allowed_to_emit:
+		number_of_rocks += 2
+		for i in range(number_of_rocks):
+			spawn_rocks(get_rand_size(), get_rand_pos())
+			yield(get_tree().create_timer(0.1), "timeout")
 
 func explode_asteroid(size, extents, pos):
 	var newsize = Globals.break_pattern[size]

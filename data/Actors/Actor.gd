@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-signal health_changed
 signal dead
 
 var velocity = Vector2()
