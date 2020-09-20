@@ -20,7 +20,7 @@ func _on_Player_shoot(bullet, _position, _direction, _target = null):
 func _input(event):
 	if event.is_action_pressed("pause"):
 		Globals.pause()
-#		Pause.show_self()
+		Pause.show_self()
 	if !$Player.alive or game_won:
 		if event is InputEventKey and event.pressed:
 			get_tree().reload_current_scene()
